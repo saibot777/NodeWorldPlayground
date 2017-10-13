@@ -1,7 +1,18 @@
 const express = require('express');
 var exphbs  = require('express-handlebars');
+const mongoose = require('mongoose');
 
 const app = express();
+
+// Connect to mongoose
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/vidjot-dev', {useMongoClient: true})
+  .then(() => console.log('MongoDB Connected...'))
+    .catch(err => console.log(err));
+
+// Load Idea Model
+require('./models/Idea');
+const Idea = mongoose.model('ideas');
 
 // HandleBars Middleware
 app.engine('handlebars', exphbs({
