@@ -1,29 +1,32 @@
 const express = require('express');
-var exphbs  = require('express-handlebars');
+const exphbs  = require('express-handlebars');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-var bodyParser = require('body-parser');
 
 const app = express();
 
-// Connect to mongoose
+// Map global promise - get rid of warning
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/vidjot-dev', {useMongoClient: true})
+// Connect to mongoose
+mongoose.connect('mongodb://localhost/vidjot-dev', {
+  useMongoClient: true
+})
   .then(() => console.log('MongoDB Connected...'))
-    .catch(err => console.log(err));
+  .catch(err => console.log(err));
 
 // Load Idea Model
 require('./models/Idea');
 const Idea = mongoose.model('ideas');
 
-// HandleBars Middleware
+// Handlebars Middleware
 app.engine('handlebars', exphbs({
   defaultLayout: 'main'
 }));
 app.set('view engine', 'handlebars');
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// Body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 // Index Route
 app.get('/', (req, res) => {
@@ -38,6 +41,17 @@ app.get('/about', (req, res) => {
   res.render('about');
 });
 
+// Idea Index Page
+app.get('/ideas', (req, res) => {
+  Idea.find({})
+    .sort({date: 'desc'})
+      .then(ideas => {
+        res.render('ideas/index', {
+          ideas: ideas
+        });
+      });
+});
+
 // Add Idea Form
 app.get('/ideas/add', (req, res) => {
   res.render('ideas/add');
@@ -47,14 +61,14 @@ app.get('/ideas/add', (req, res) => {
 app.post('/ideas', (req, res) => {
   let errors = [];
 
-  if (!req.body.title) {
-    errors.push({text: 'Please add a title'});
+  if(!req.body.title){
+    errors.push({text:'Please add a title'});
   }
-  if (!req.body.details) {
-    errors.push({text: 'Please add some details'});
+  if(!req.body.details){
+    errors.push({text:'Please add some details'});
   }
 
-  if (errors.length > 0) {
+  if(errors.length > 0){
     res.render('ideas/add', {
       errors: errors,
       title: req.body.title,
@@ -67,9 +81,9 @@ app.post('/ideas', (req, res) => {
     }
     new Idea(newUser)
       .save()
-        .then(idea => {
-          res.redirect('/ideas');
-        });
+      .then(idea => {
+        res.redirect('/ideas');
+      })
   }
 });
 

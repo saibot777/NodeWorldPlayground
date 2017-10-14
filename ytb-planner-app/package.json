@@ -1,5 +1,5 @@
 {
-  "name": "ytb-planner",
+  "name": "vidjot",
   "version": "1.0.0",
   "description": "App to create video ideas",
   "main": "app.js",
@@ -9,9 +9,9 @@
   "author": "Stefan Trajkovic",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.18.1",
     "express": "^4.15.4",
     "express-handlebars": "^3.0.0",
-    "mongoose": "^4.11.12",
-    "body-parser": "^1.18.1"
+    "mongoose": "^4.11.12"
   }
 }
