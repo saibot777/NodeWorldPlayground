@@ -9,12 +9,12 @@ const Idea = mongoose.model('ideas');
 
 // Login
 router.get('/login', (req, res) => {
-    res.send('login');
+    res.render('users/login');
   });
   
 // Delete Idea
 router.get('/register', (req, res) => {
-    res.send('register');
+    res.render('users/register');
 });
 
 module.exports = router;
