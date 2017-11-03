@@ -40,16 +40,15 @@ mongoose.connect(keys.mongoURI, {
 
 const app = express();
 
-// BodyParser Middleware
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 // Handlebars Middleware
 app.engine('handlebars', exphbs({
   helpers: {
     truncate: truncate,
     stripTags: stripTags,
-    formatDate: formatDate
+    formatDate:formatDate
   },
   defaultLayout:'main'
 }));
@@ -72,14 +71,13 @@ app.use((req, res, next) => {
   next();
 });
 
-// Set static path
+// Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Use Routes
 app.use('/', index);
 app.use('/auth', auth);
 app.use('/stories', stories);
-
 
 const port = process.env.PORT || 5000;
 
