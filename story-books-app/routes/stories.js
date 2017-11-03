@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
 });
 
 // Show Single Story
-router.get('/show/:id', (req, res) => {
+router.get('/show/:id', ensureAuthenticated, (req, res) => {
   Story.findOne({
     _id: req.params.id
   })
@@ -96,6 +96,14 @@ router.put('/:id', (req, res) => {
         res.redirect('/dashboard');
       });
   });
-})
+});
+
+// Delete Story
+router.delete('/:id', (req, res) => {
+  Story.remove({_id: req.params.id})
+    .then(() => {
+      res.redirect('/dashboard');
+    });
+});
 
 module.exports = router;
