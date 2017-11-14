@@ -20,11 +20,13 @@
   "author": "Stefan Trajkovic",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "cookie-session": "^2.0.0-beta.3",
     "express": "4.15.3",
     "mongoose": "^4.13.1",
     "nodemon": "1.11.0",
     "passport": "^0.4.0",
-    "passport-google-oauth20": "^1.0.0"
+    "passport-google-oauth20": "^1.0.0",
+    "stripe": "^5.3.0"
   }
 }
