@@ -6,6 +6,7 @@ export default class Mailer extends helper.Mail {
     constructor({ subject, recepients }, content) {
         super();
 
+        this.sgApi = sendgrid(keys.sendGridKey);
         this.from_email = new helper.Email('no-reply@dispatcher.com');
         this.subject = subject;
         this.body = new helper.Content('text/html', content);
@@ -32,11 +33,22 @@ export default class Mailer extends helper.Mail {
 
     addRecipients() {
         let personalize = new helper.Personalization();
-        
+
         this.recepients.forEach(recepient => {
             personalize.addTo(recepient);
         });
         this.addPersonalization(personalize);
+    }
+
+    async send() {
+        let request = this.sgApi.emptyRequest({
+            method: 'POST',
+            path: '/v3/mail/send',
+            body: this.toJSON()
+        });
+
+       let response =  this.sgApi.API(request);
+       return response;
     }
 
 }
