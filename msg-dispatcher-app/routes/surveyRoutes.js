@@ -11,7 +11,7 @@ module.exports = app => {
         res.send('Thanks for voting!');
     });
 
-    app.post('/api/surveys', requireLogin, requireCredits, (req, res) => {
+    app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
         const { title, subject, body, recipients } = req.body;
 
         const survey = new Survey({
@@ -31,7 +31,7 @@ module.exports = app => {
             req.user.credits -= 1;
             let user = await req.user.save();
     
-            res.send(user);
+            // res.send(user);
         } catch (err) {
             res.status(422).send(err);
         }
