@@ -1,8 +1,26 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 
+
+// Middlewares
 app.use(morgan('dev'));
+
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
+// CORS
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', '*');
+    if (req.method === 'OPTIONS') {
+        res.header('Access-Control-Allow-Methods', 'GET','PUT', 'POST', 'PATCH', 'DELETE')
+        return res.status(200).json({});
+    }
+    next();
+});
+
 
 // Routes
 const productRoutes = require('./api/routes/products');
@@ -11,6 +29,8 @@ app.use('/products', productRoutes);
 const orderRoutes = require('./api/routes/orders');
 app.use('/orders', orderRoutes);
 
+
+// Error Handling
 app.use((req, res, next) => {
     const error = new Error('Not Found');
     error.status = 404;
