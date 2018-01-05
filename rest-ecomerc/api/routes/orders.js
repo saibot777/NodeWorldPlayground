@@ -18,7 +18,6 @@ router.post('/', (req, res, next) => {
     });
     order
         .save()
-        .exec()
         .then(result => {
             res.status(201).json(result);
         })
