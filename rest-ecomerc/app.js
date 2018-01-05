@@ -2,10 +2,13 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 
 // Middlewares
 app.use(morgan('dev'));
+
+mongoose.connect('mongodb://admin:admin@node-rest-shard-00-00-wxb8i.mongodb.net:27017,node-rest-shard-00-01-wxb8i.mongodb.net:27017,node-rest-shard-00-02-wxb8i.mongodb.net:27017/test?ssl=true&replicaSet=node-rest-shard-0&authSource=admin')
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
