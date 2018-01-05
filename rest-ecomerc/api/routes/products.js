@@ -6,10 +6,15 @@ const Product = require('../models/Product');
 
 router.get('/', (req, res, next) => {
     Product
+        .select('name price _id')
         .find()
         .exec()
         .then(docs => {
-            res.status(200).json(docs);
+            const response = {
+                count: docs.length,
+                products: docs
+            }
+            res.status(200).json(response);
         })
         .catch(err => {
             res.status(500).json({
