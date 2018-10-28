@@ -46,12 +46,13 @@ exports.postEditProduct = (req, res, next) => {
   const updatedProduct = new Product(
     prodId,
     updatedTitle,
-    updatedPrice,
     updatedImageUrl,
-    updatedDesc
+    updatedDesc,
+    updatedPrice
   );
-  updatedProduct.save()
-}
+  updatedProduct.save();
+  res.redirect('/admin/products');
+};
 
 exports.getProducts = (req, res, next) => {
   Product.fetchAll(products => {
@@ -61,4 +62,10 @@ exports.getProducts = (req, res, next) => {
       path: '/admin/products'
     });
   });
+};
+
+exports.postDeleteProduct = (req, res, next) => {
+  const prodId = req.body.productId;
+  Product.deleteById(prodId);
+  res.redirect('/admin/products');
 };
