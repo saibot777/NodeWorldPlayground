@@ -2,6 +2,7 @@ import { Response, Request, RequestHandler } from "express";
 import { DataStore } from '../../../data';
 import { ToursListModel } from "../../../models/tours-list-model";
 import { TourItemModel } from "../../../models/tour-item-model";
+import * as uuid from 'uuid/v4';
 
 /**
  * @api {get} /tours/
@@ -41,4 +42,31 @@ export const find: RequestHandler = (req: Request, res: Response) => {
     else {
         res.json({"status": "failed", "message": "Not found"});
     }
+};
+
+/**
+ * @api {post} /tours
+ *
+ * @apiName POST Create Tour
+ *
+ * @apiHeader (RequestFileHeader) {String="application/json"} Content-Type
+ *
+ * @apiSuccess (200) {String} 
+ *
+ * @apiError (404) {String} Not Found
+ */
+
+export const create: RequestHandler = (req: Request, res: Response) => {
+    const newTour = {
+        id: uuid(),
+        location: req.body.location || "",
+        tourTitle: req.body.tourTitle || "",
+        tourCategory: req.body.tourCategory || "",
+        tourDescription: req.body.tourDescription || "",
+        price: req.body.price || "",
+        currency: req.body.currency || "",
+    }
+    DataStore.tours.push(newTour);
+
+    res.send("message: Success")
 };
