@@ -1,4 +1,5 @@
-import { Response, Request } from "express";
+import { Response, Request, RequestHandler } from "express";
+import { DataStore } from '../../../data';
 
 /**
  * @api {get} /tours/
@@ -12,8 +13,8 @@ import { Response, Request } from "express";
  * @apiError (500) {String} Internal Server error
  */
 
-export const list = (req: Request, res: Response) => {
-    res.send("Tours List")
+export const list: RequestHandler = (req: Request, res: Response) => {
+    res.json(DataStore.tours);
 };
 
 /**
@@ -28,6 +29,6 @@ export const list = (req: Request, res: Response) => {
  * @apiError (500) {String} Internal Server error
  */
 
-export const find = (req: Request, res: Response) => {
+export const find: RequestHandler = (req: Request, res: Response) => {
     res.send("Single Tour")
 };
