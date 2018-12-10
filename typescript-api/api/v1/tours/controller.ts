@@ -1,5 +1,6 @@
 import { Response, Request, RequestHandler } from "express";
 import { DataStore } from '../../../data';
+import { TourModel } from "../../../models/tour-model";
 
 /**
  * @api {get} /tours/
@@ -14,7 +15,7 @@ import { DataStore } from '../../../data';
  */
 
 export const list: RequestHandler = (req: Request, res: Response) => {
-    res.json(DataStore.tours);
+    res.json(DataStore.tours.map((item: TourModel) => new TourModel(item)));
 };
 
 /**
