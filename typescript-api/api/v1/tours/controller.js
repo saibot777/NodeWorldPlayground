@@ -1,5 +1,5 @@
-import { Response, Request } from "express";
-
+"use strict";
+exports.__esModule = true;
 /**
  * @api {get} /tours/
  *
@@ -7,11 +7,10 @@ import { Response, Request } from "express";
  *
  * @apiHeader (RequestFileHeader) {String="application/json"} Content-Type
  *
- * @apiSuccess (200) {String} 
+ * @apiSuccess (200) {String}
  *
  * @apiError (500) {String} Internal Server error
  */
-
-export const getHomePage = (req: Request, res: Response) => {
-    res.send("TourBookingAPI")
+exports.getHomePage = function (req, res) {
+    res.send("TourBookingAPI");
 };
