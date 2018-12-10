@@ -14,6 +14,7 @@
   "author": "Stefan Trajkovic",
   "license": "ISC",
   "devDependencies": {
+    "@types/morgan": "^1.7.35",
     "@types/uuid": "^3.4.4",
     "nodemon": "^1.18.7",
     "ts-node": "^7.0.1",
@@ -24,6 +25,7 @@
     "@types/node": "^10.12.12",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "morgan": "^1.9.1",
     "uuid": "^3.3.2"
   }
 }

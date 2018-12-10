@@ -3,6 +3,7 @@ import { DataStore } from '../../../data';
 import { ToursListModel } from "../../../models/tours-list-model";
 import { TourItemModel } from "../../../models/tour-item-model";
 import * as uuid from 'uuid/v4';
+import { fileMapper } from "../general/static";
 
 /**
  * @api {get} /tours/
@@ -36,8 +37,9 @@ export const find: RequestHandler = (req: Request, res: Response) => {
     const tourID = req.params.id;
     const selectedTour = DataStore.tours.find((element) => element.id == tourID);
     if (selectedTour) {
+        const imageURLs = selectedTour.img.map(fileMapper(req.app.get("env")));
         const selectedReviews = DataStore.reviews.filter((item) => item.tourID == tourID);
-        res.json(new TourItemModel(selectedTour, selectedReviews));
+        res.json(new TourItemModel(selectedTour, selectedReviews, imageURLs));
     }
     else {
         res.json({"status": "failed", "message": "Not found"});
@@ -95,7 +97,8 @@ export const update: RequestHandler = (req: Request, res: Response) => {
             tourCategory: req.body.tourCategory || originalTour.tourCategory,
             tourDescription: req.body.tourDescription || originalTour.tourDescription,
             price: req.body.price || originalTour.price,
-            currency: req.body.currency || originalTour.currency
+            currency: req.body.currency || originalTour.currency,
+            img: originalTour.img
         }
         DataStore.tours[tourIndex] = newTour;
         res.json({"status": "success", "message": "Tour updated"});
