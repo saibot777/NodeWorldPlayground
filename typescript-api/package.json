@@ -1,0 +1,26 @@
+{
+  "name": "typescript-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.ts",
+  "scripts": {
+    "start-server": "ts-node server.ts",
+    "start": "nodemon -e ts -w ./ -x npm run start-server"
+  },
+  "keywords": [
+    "node",
+    "typescript"
+  ],
+  "author": "Stefan Trajkovic",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.18.7",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "@types/express": "^4.16.0",
+    "@types/node": "^10.12.12",
+    "express": "^4.16.4"
+  }
+}
