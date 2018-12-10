@@ -1,6 +1,7 @@
 import { Response, Request, RequestHandler } from "express";
 import { DataStore } from '../../../data';
-import { TourModel } from "../../../models/tour-model";
+import { ToursListModel } from "../../../models/tours-list-model";
+import { TourItemModel } from "../../../models/tour-item-model";
 
 /**
  * @api {get} /tours/
@@ -15,7 +16,7 @@ import { TourModel } from "../../../models/tour-model";
  */
 
 export const list: RequestHandler = (req: Request, res: Response) => {
-    res.json(DataStore.tours.map((item: TourModel) => new TourModel(item)));
+    res.json(DataStore.tours.map((item) => new ToursListModel(item)));
 };
 
 /**
@@ -27,9 +28,17 @@ export const list: RequestHandler = (req: Request, res: Response) => {
  *
  * @apiSuccess (200) {String} 
  *
- * @apiError (500) {String} Internal Server error
+ * @apiError (404) {String} Not Found
  */
 
 export const find: RequestHandler = (req: Request, res: Response) => {
-    res.send("Single Tour")
+    const tourID = req.params.id;
+    const selectedTour = DataStore.tours.find((element) => element.id == tourID);
+    if (selectedTour) {
+        const selectedReviews = DataStore.reviews.filter((item) => item.tourID == tourID);
+        res.json(new TourItemModel(selectedTour, selectedReviews));
+    }
+    else {
+        res.json({"status": "failed", "message": "Not found"});
+    }
 };
