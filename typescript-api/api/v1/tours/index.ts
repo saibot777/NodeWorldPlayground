@@ -3,6 +3,7 @@ import * as controller from './controller';
 
 const router = express.Router({ mergeParams: true });
 
-router.get('/', controller.getHomePage);
+router.get('/', controller.list);
+router.get('/:id', controller.find);
 
 module.exports = router;
