@@ -6,7 +6,7 @@ const router = express.Router({ mergeParams: true });
 
 router.get('/', middlewares.apiCheckTourFilters, controller.list);
 router.get('/:id', controller.find);
-router.get('/static/download/:filename', controller.download);
+router.get('/download/:filename', controller.download);
 
 router.post('/', controller.create);
 router.post('/:id/upload', controller.upload);
