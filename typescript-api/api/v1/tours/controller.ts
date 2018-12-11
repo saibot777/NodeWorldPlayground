@@ -6,6 +6,7 @@ import * as uuid from 'uuid/v4';
 import * as staticFileService from "../general/static";
 import { fileMapper } from "../general/static";
 import { APIError, PublicInfo } from "../../../models/error-model";
+import { TourFiltersModel } from "../../../models/tour-filters-model";
 
 /**
  * @api {get} /tours/
@@ -20,8 +21,16 @@ import { APIError, PublicInfo } from "../../../models/error-model";
  */
 
 export const list: RequestHandler = (req: Request, res: Response) => {
-    // const filters = new Tour
-    res.json(DataStore.tours.map((item) => new ToursListModel(item)));
+    const filters = new TourFiltersModel(req.query);
+    const filteredData = DataStore.tours.filter((item) => {
+        let conditions = [
+            filters.location ? (item.location == filters.location) : true,
+            filters.priceMin ? (item.price > filters.priceMin) : true,
+            filters.priceMax ? (item.price < filters.priceMax) : true,
+        ];
+        return conditions.every(value => value == true);
+    })
+    res.json(filteredData.map((item) => new ToursListModel(item)));
 };
 
 /**
