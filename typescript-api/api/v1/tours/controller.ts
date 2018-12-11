@@ -133,7 +133,7 @@ export const remove: RequestHandler = (req: Request, res: Response) => {
 };
 
 /**
- * @api {post} /tours/upload
+ * @api {post} /tours/:id/upload
  *
  * @apiName POST Upload Image
  *
@@ -148,11 +148,19 @@ export const upload: RequestHandler = (req: Request, res: Response) => {
     const tourID = req.params.id;
     const tourIndex = DataStore.tours.findIndex((item) => item.id == tourID);
     if (tourIndex == -1) {
-        
-        res.json({"status": "success", "message": "Image upload"});
+        res.json({"status": "fail", "message": "Tour not found"});
     }
     else {
         const upload = staticFileService.getFileUploader(req.app.get("env"));
-        res.json({"status": "error", "message": "Tour not found"});
+        upload(req, res, (err) => {
+            if (err) {
+                console.log(err);
+                res.json({"status": "error", "message": "File upload fail"});
+            } else {
+                DataStore.tours[tourIndex].img.push(req.file.filename);
+                res.json({"status": "success", "message": "File uploaded"});
+            }
+        })
+       
     }
 };
