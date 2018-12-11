@@ -6,6 +6,7 @@ import * as path from 'path';
 const app = express();
 
 // Express Configuration
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/static", express.static(path.join(__dirname, "public", "img")));

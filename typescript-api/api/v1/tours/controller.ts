@@ -7,6 +7,8 @@ import * as staticFileService from "../general/static";
 import { fileMapper } from "../general/static";
 import { APIError, PublicInfo } from "../../../models/error-model";
 import { TourFiltersModel } from "../../../models/tour-filters-model";
+import * as path from "path";
+import { __root } from "../../../config";
 
 /**
  * @api {get} /tours/
@@ -177,3 +179,25 @@ export const upload: RequestHandler = (req: Request, res: Response, next: NextFu
        
     }
 };
+
+/**
+ * @api {get} /tours/static/download/:filename
+ *
+ * @apiName GET Download Image
+ *
+ * @apiHeader (RequestFileHeader) FILE
+ *
+ * @apiSuccess (200) Downloads Image
+ *
+ * @apiError (404) {String} Not Found
+ */
+
+export const download: RequestHandler = (req: Request, res: Response, next: NextFunction) => {
+    const filename = req.params.filename;
+    res.download(path.join(__root, "public", "img", filename), (err) => {
+        if (err) {
+            next(new APIError("Download Failed.", "Cannot download requested file", 400))
+        }
+    })
+};
+
