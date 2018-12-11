@@ -1,10 +1,11 @@
-import { Response, Request, RequestHandler } from "express";
+import { Response, Request, RequestHandler, NextFunction } from "express";
 import { DataStore } from '../../../data';
 import { ToursListModel } from "../../../models/tours-list-model";
 import { TourItemModel } from "../../../models/tour-item-model";
 import * as uuid from 'uuid/v4';
 import * as staticFileService from "../general/static";
 import { fileMapper } from "../general/static";
+import { APIError, PublicInfo } from "../../../models/error-model";
 
 /**
  * @api {get} /tours/
@@ -59,7 +60,10 @@ export const find: RequestHandler = (req: Request, res: Response) => {
  * @apiError (404) {String} Not Found
  */
 
-export const create: RequestHandler = (req: Request, res: Response) => {
+export const create: RequestHandler = (req: Request, res: Response, next: NextFunction) => {
+    if (!req.body) {
+        next(new APIError("Data missing", "No Data in Request Body", 400))
+    }
     const newTour = {
         id: uuid(),
         location: req.body.location || "",
@@ -70,8 +74,7 @@ export const create: RequestHandler = (req: Request, res: Response) => {
         currency: req.body.currency || "",
     }
     DataStore.tours.push(newTour);
-
-    res.send("message: Success")
+    res.json(new PublicInfo("Tour added.", 200, { tour: newTour }));
 };
 
 /**
@@ -121,14 +124,14 @@ export const update: RequestHandler = (req: Request, res: Response) => {
  * @apiError (404) {String} Not Found
  */
 
-export const remove: RequestHandler = (req: Request, res: Response) => {
+export const remove: RequestHandler = (req: Request, res: Response, next: NextFunction) => {
     const tourID = req.params.id;
     const tourIndex = DataStore.tours.findIndex((item) => item.id == tourID);
     if (tourIndex > - 1) {
         DataStore.tours.splice(tourIndex);
-        res.json({"status": "success", "message": "Tour Removed"});
+        res.json(new PublicInfo("Tour Removed", 200));
     } else {
-        res.json({"status": "error", "message": "Not Found"})
+        next(new APIError("Validation Error", "Tour not found.", 400));
     }
 };
 
