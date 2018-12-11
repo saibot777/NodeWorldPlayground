@@ -26,3 +26,9 @@ export class PublicError {
         this.properties = err.properties
     }
 }
+
+export class PublicInfo {
+    constructor(public message: string,
+                public status: number,
+                public properties?: any) {}
+}
