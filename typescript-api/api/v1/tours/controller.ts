@@ -3,6 +3,7 @@ import { DataStore } from '../../../data';
 import { ToursListModel } from "../../../models/tours-list-model";
 import { TourItemModel } from "../../../models/tour-item-model";
 import * as uuid from 'uuid/v4';
+import * as staticFileService from "../general/static";
 import { fileMapper } from "../general/static";
 
 /**
@@ -128,5 +129,30 @@ export const remove: RequestHandler = (req: Request, res: Response) => {
         res.json({"status": "success", "message": "Tour Removed"});
     } else {
         res.json({"status": "error", "message": "Not Found"})
+    }
+};
+
+/**
+ * @api {post} /tours/upload
+ *
+ * @apiName POST Upload Image
+ *
+ * @apiHeader (RequestFileHeader) FILE
+ *
+ * @apiSuccess (200) Uploads Image
+ *
+ * @apiError (404) {String} Not Found
+ */
+
+export const upload: RequestHandler = (req: Request, res: Response) => {
+    const tourID = req.params.id;
+    const tourIndex = DataStore.tours.findIndex((item) => item.id == tourID);
+    if (tourIndex == -1) {
+        
+        res.json({"status": "success", "message": "Image upload"});
+    }
+    else {
+        const upload = staticFileService.getFileUploader(req.app.get("env"));
+        res.json({"status": "error", "message": "Tour not found"});
     }
 };
