@@ -20,6 +20,7 @@ import { APIError, PublicInfo } from "../../../models/error-model";
  */
 
 export const list: RequestHandler = (req: Request, res: Response) => {
+    // const filters = new Tour
     res.json(DataStore.tours.map((item) => new ToursListModel(item)));
 };
 
@@ -89,7 +90,7 @@ export const create: RequestHandler = (req: Request, res: Response, next: NextFu
  * @apiError (404) {String} Not Found
  */
 
-export const update: RequestHandler = (req: Request, res: Response) => {
+export const update: RequestHandler = (req: Request, res: Response, next: NextFunction) => {
     const tourID = req.params.id;
     const tourIndex = DataStore.tours.findIndex((item: any) => item.id == tourID);
     if (tourIndex > -1) {
@@ -105,10 +106,10 @@ export const update: RequestHandler = (req: Request, res: Response) => {
             img: originalTour.img
         }
         DataStore.tours[tourIndex] = newTour;
-        res.json({"status": "success", "message": "Tour updated"});
+        res.json(new PublicInfo("Tour saved.", 200, { tour: newTour }));
     }
     else {
-        res.json({"status": "error", "message": "Tour not found"});
+        next(new APIError("Validation Error", "Tour data fails.", 400));
     }
 };
 
@@ -147,7 +148,7 @@ export const remove: RequestHandler = (req: Request, res: Response, next: NextFu
  * @apiError (404) {String} Not Found
  */
 
-export const upload: RequestHandler = (req: Request, res: Response) => {
+export const upload: RequestHandler = (req: Request, res: Response, next: NextFunction) => {
     const tourID = req.params.id;
     const tourIndex = DataStore.tours.findIndex((item) => item.id == tourID);
     if (tourIndex == -1) {
@@ -158,10 +159,10 @@ export const upload: RequestHandler = (req: Request, res: Response) => {
         upload(req, res, (err) => {
             if (err) {
                 console.log(err);
-                res.json({"status": "error", "message": "File upload fail"});
+                next(new APIError("Server Error", "File Upload Fail", 500));
             } else {
                 DataStore.tours[tourIndex].img.push(req.file.filename);
-                res.json({"status": "success", "message": "File uploaded"});
+                res.json(new PublicInfo("File Uploaded", 200));
             }
         })
        
