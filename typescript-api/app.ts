@@ -1,7 +1,9 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
+import * as mongoose from 'mongoose';
 import * as middlewares from './middlewares';
 import * as path from 'path';
+import { db } from "./db";
 
 const app = express();
 
@@ -19,6 +21,12 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/static", express.static(path.join(__dirname, "public", "img")));
+
+// Connect to MongoDB
+mongoose
+    .connect(db.mongoURI, { useNewUrlParser: true })
+    .then(() => console.log("MongoDB Connected"))
+    .catch(err => console.log(err));
 
 // Middlewares
 app.use(middlewares.authenticator)
