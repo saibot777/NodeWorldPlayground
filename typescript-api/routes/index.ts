@@ -6,8 +6,8 @@ module.exports = app => {
     app.use('/api/v1/tours', require('../api/v1/tours'));
 
     /**
-     * @ReviewsApiRoutes
+     * @UsersApiRoutes
      */
-    // app.use('/api/v1/reviews', require('../api/v1/reviews'));
+    app.use('/api/v1/users', require('../api/v1/users'));
 
 };
