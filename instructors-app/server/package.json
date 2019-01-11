@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "node, hapi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node index.js"
+  },
+  "keywords": [
+    "node",
+    "hapi"
+  ],
+  "author": "Stefan Trajkovic",
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^17.8.1"
+  }
+}
