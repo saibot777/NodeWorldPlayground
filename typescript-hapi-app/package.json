@@ -1,0 +1,44 @@
+{
+  "name": "typescript-hapi-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start-server": "ts-node server.ts",
+    "start": "nodemon -e ts -w ./ -x npm run start-server"
+  },
+  "keywords": [
+    "node",
+    "hapi",
+    "typescript"
+  ],
+  "author": "Stefan Trajkovic",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/hapi": "^17.8.4",
+    "@types/joi": "^14.0.1",
+    "@types/jsonwebtoken": "^8.3.0",
+    "@types/mongoose": "^5.3.4",
+    "@types/nconf": "0.0.37",
+    "nodemon": "^1.18.7",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "@types/node": "^10.12.12",
+    "bcryptjs": "^2.4.3",
+    "fs": "0.0.1-security",
+    "hapi": "^18.0.0",
+    "hapi-auth-jwt2": "^8.2.0",
+    "hapi-swagger": "^9.3.0",
+    "inert": "^5.1.2",
+    "joi": "^14.3.1",
+    "jsonwebtoken": "^8.4.0",
+    "moment": "^2.23.0",
+    "moment-timezone": "^0.5.23",
+    "mongoose": "^5.3.15",
+    "nconf": "^0.10.0",
+    "vision": "^5.4.4"
+  }
+}
