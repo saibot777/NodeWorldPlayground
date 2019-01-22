@@ -6,7 +6,7 @@
   "scripts": {
     "start-server": "ts-node index.ts",
     "start": "nodemon -e ts -w ./ -x npm run index.ts",
-    "test": "mocha tests/**/*.*"
+    "test": "mocha -r ts-node/register tests/**/*.spec.ts"
   },
   "keywords": [
     "node",
