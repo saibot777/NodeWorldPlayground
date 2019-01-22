@@ -1,13 +1,9 @@
 import * as Hapi from "hapi";
 import * as Boom from "boom";
 import { ITask } from "./task.model";
-import { IDatabase } from "../../database";
-import { IServerConfigurations } from "../../configurations";
-import { IRequest } from "../../interfaces/request";
-import { ILogging } from "../../plugins/logging/logging";
-
-//Custom helper module
-import * as Helper from "../../../utils/helper";
+import { IDatabase } from "../../../database";
+import { IServerConfigurations } from "../../../config";
+import { IRequest } from "../../../interfaces/request";
 
 export default class TaskController {
   private database: IDatabase;
@@ -35,7 +31,7 @@ export default class TaskController {
     let _id = request.params["id"];
 
     try {
-      let task: ITask = await this.database.taskModel.findByIdAndUpdate(
+      let task: any = await this.database.taskModel.findByIdAndUpdate(
         { _id, userId }, //ES6 shorthand syntax
         { $set: request.payload },
         { new: true }
