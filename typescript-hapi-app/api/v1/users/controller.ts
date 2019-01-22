@@ -26,7 +26,7 @@ export default class UserController {
   public async loginUser(request: ILoginRequest, h: Hapi.ResponseToolkit) {
     const { email, password } = request.payload;
 
-    let user: IUser = await this.database.userModel.findOne({ email: email });
+    let user: any = await this.database.userModel.findOne({ email: email });
 
     if (!user) {
       return Boom.unauthorized("User does not exists.");
@@ -52,7 +52,7 @@ export default class UserController {
     const id = request.auth.credentials.id;
 
     try {
-      let user: IUser = await this.database.userModel.findByIdAndUpdate(
+      let user: any = await this.database.userModel.findByIdAndUpdate(
         id,
         { $set: request.payload },
         { new: true }
@@ -65,14 +65,14 @@ export default class UserController {
 
   public async deleteUser(request: IRequest, h: Hapi.ResponseToolkit) {
     const id = request.auth.credentials.id;
-    let user: IUser = await this.database.userModel.findByIdAndRemove(id);
+    let user: any = await this.database.userModel.findByIdAndRemove(id);
 
     return user;
   }
 
   public async infoUser(request: IRequest, h: Hapi.ResponseToolkit) {
     const id = request.auth.credentials.id;
-    let user: IUser = await this.database.userModel.findById(id);
+    let user: any = await this.database.userModel.findById(id);
 
     return user;
   }

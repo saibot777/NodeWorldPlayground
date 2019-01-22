@@ -15,7 +15,7 @@ export default class TaskController {
   }
 
   public async createTask(request: IRequest, h: Hapi.ResponseToolkit) {
-    var newTask: ITask = <ITask>request.payload;
+    let newTask: ITask = <ITask>request.payload;
     newTask.userId = request.auth.credentials.id;
 
     try {
