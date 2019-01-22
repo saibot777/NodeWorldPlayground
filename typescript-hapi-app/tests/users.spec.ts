@@ -31,8 +31,8 @@ describe("UserController Tests", () => {
 
   it("Create user", async () => {
     let user = {
-      email: "user@mail.com",
-      name: "John Robot",
+      email: "userss@mail.com",
+      name: "Johns Robot",
       password: "123123"
     };
 
