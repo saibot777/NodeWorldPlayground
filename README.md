@@ -5,4 +5,4 @@
 
 #### dispatcher-app -  Tech Used: Node/Express, google-oauth, passport.js, Axios, Materialize, Mongo with Mongoose...
 
-#### rest-commerc - building rest api in Node/Express
+#### rest-commercc - building rest api in Node/Express
