@@ -5,9 +5,7 @@ import { IDatabase } from "../../../database";
 import { IServerConfigurations } from "../../../config";
 import { IRequest } from "../../../interfaces/request";
 
-import {Get, Post, Route, Body, Query, Header, Path, SuccessResponse, Controller } from 'tsoa';
-
-export default class TaskController {
+export default class TaskService {
   private database: IDatabase;
   private configs: IServerConfigurations;
 
