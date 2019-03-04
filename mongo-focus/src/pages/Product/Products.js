@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
+import { Stitch, RemoteMongoClient } from 'mongodb-stitch-browser-sdk';
 import Products from '../../components/Products/Products';
 
 class ProductsPage extends Component {
@@ -25,16 +25,25 @@ class ProductsPage extends Component {
   };
 
   fetchData = () => {
-    axios
-      .get('http://localhost:3100/products')
-      .then(productsResponse => {
-        this.setState({ isLoading: false, products: productsResponse.data });
+    const mongodb = Stitch.
+                      defaultAppClient
+                      .getServiceClient (
+                        RemoteMongoClient.factory, "mongodb-atlas"
+                      );
+    mongodb
+      .db('frenzyShops')
+      .collection('products')   
+      .find()
+      .asArray()
+      .then(products => {
+        this.setState({ products })
       })
       .catch(err => {
-        this.setState({ isLoading: false, products: [] });
-        this.props.onError('Loading products failed. Please try again later');
-        console.log(err);
-      });
+        this.props.onError(
+          'Fetching Failed'
+        )
+        console.log(err)
+      })                
   };
 
   render() {
