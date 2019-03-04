@@ -36,9 +36,15 @@ class ProductsPage extends Component {
       .find()
       .asArray()
       .then(products => {
-        this.setState({ products })
+        const parsedProducts = products.map(product => {
+          product._id = product.product._id.toString();
+          product.price = product.price.toString(); 
+          return product;
+        })
+        this.setState({ isLoading: false, products })
       })
       .catch(err => {
+        this.setState({ isLoading: false })
         this.props.onError(
           'Fetching Failed'
         )
