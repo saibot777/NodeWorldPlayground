@@ -37,11 +37,11 @@ class ProductsPage extends Component {
       .asArray()
       .then(products => {
         const parsedProducts = products.map(product => {
-          product._id = product.product._id.toString();
-          product.price = product.price.toString(); 
+          product._id = product._id.toString();
+          product.price = product.price.toString();
           return product;
         })
-        this.setState({ isLoading: false, products })
+        this.setState({ isLoading: false, products: products })
       })
       .catch(err => {
         this.setState({ isLoading: false })
