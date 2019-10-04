@@ -9,4 +9,14 @@ describe("demo", () => {
       expect(demo.add(1, 2)).to.equal(3);
     });
   });
+
+  context("callback add", done => {
+    it("should test the callback", done => {
+      demo.addCallback(1, 2, (err, result) => {
+        expect(err).not.to.exist;
+        expect(result).to.equal(3);
+        done();
+      });
+    });
+  });
 });
