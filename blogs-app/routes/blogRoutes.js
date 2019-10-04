@@ -14,9 +14,11 @@ module.exports = app => {
   });
 
   app.get('/api/blogs', requireLogin, async (req, res) => {
-    const blogs = await Blog.find({ _user: req.user.id });
+    const blogs = await Blog.find({ _user: req.user.id }).cache();
+    res.setHeader('Last-Modified', (new Date()).toUTCString());
 
     res.send(blogs);
+    next(); 
   });
 
   app.post('/api/blogs', requireLogin, async (req, res) => {
