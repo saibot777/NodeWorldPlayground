@@ -19,4 +19,19 @@ describe("demo", () => {
       });
     });
   });
+
+  context("test promise", () => {
+    it("should add with a promise cb", () => {
+      demo
+        .addPromise(1, 2)
+        .then(res => {
+          expect(res).to.equal(3);
+          done();
+        })
+        .catch(er => {
+          console.log(er, "caught error");
+          done();
+        });
+    });
+  });
 });
