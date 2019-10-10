@@ -57,5 +57,12 @@ describe("demo", () => {
       expect(spy).to.have.been.calledOnce;
       spy.restore();
     });
+
+    it("should stub console.warn", () => {
+      const stub = sinon.stub(console, "warn");
+
+      demo.foo();
+      expect(stub).to.have.been.calledOnce;
+    });
   });
 });
