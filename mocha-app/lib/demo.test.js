@@ -1,5 +1,6 @@
 const chai = require("chai");
 const expect = chai.expect;
+const chaiAsPromised = require("chai-as-promised");
 
 const demo = require("./demo");
 
@@ -20,18 +21,22 @@ describe("demo", () => {
     });
   });
 
-  context("test promise", () => {
+  context("test promise", done => {
     it("should add with a promise cb", () => {
       demo
         .addPromise(1, 2)
-        .then(res => {
-          expect(res).to.equal(3);
+        .then(result => {
+          expect(result).to.equal(3);
           done();
         })
         .catch(er => {
           console.log(er, "caught error");
-          done();
         });
+    });
+
+    it("should test promise with aync await", async () => {
+      const result = await demo.addPromise(1, 2);
+      expect(result).to.equal(3);
     });
   });
 });
