@@ -55,6 +55,7 @@ describe("demo", () => {
 
       expect(spy.calledOnce).to.be.true;
       expect(spy).to.have.been.calledOnce;
+      spy.restore();
     });
   });
 });
