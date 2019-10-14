@@ -139,5 +139,9 @@ describe("users", () => {
       expect(fakeUserClass).to.be.calledWithNew;
       expect(fakeUserClass).to.have.been.calledWith(sampleUser);
     });
+
+    it("should save the user", () => {
+      expect(saveStub).to.have.called;
+    });
   });
 });
