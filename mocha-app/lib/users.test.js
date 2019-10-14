@@ -147,5 +147,13 @@ describe("users", () => {
     it("should call mailer with email and name of the user", () => {
       expect(mailerStub).to.have.calledWith(sampleUser.email, sampleUser.name);
     });
+
+    it("should reject the errors", async () => {
+      saveStub.rejects(new Error("fake"));
+
+      await expect(users.create(sampleUser)).to.eventually.be.rejectedWith(
+        "fake"
+      );
+    });
   });
 });
