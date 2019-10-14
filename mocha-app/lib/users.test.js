@@ -105,4 +105,18 @@ describe("users", () => {
       expect(deleteStub).to.have.been.calledWith({ _id: 123 });
     });
   });
+
+  context("create user", () => {
+    it("should reject invalid args", async () => {
+      await expect(users.create()).to.eventually.be.rejectedWith(
+        "Invalid arguments"
+      );
+      await expect(
+        users.create({ name: "TestName" })
+      ).to.eventually.be.rejectedWith("Invalid arguments");
+      await expect(
+        users.create({ email: "test@email.com" })
+      ).to.eventually.be.rejectedWith("Invalid arguments");
+    });
+  });
 });
