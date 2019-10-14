@@ -97,5 +97,12 @@ describe("users", () => {
     it("should check for error using eventually", () => {
       return expect(users.delete()).to.eventually.be.rejectedWith("Invalid id");
     });
+
+    it("should call User.remove", async () => {
+      let result = await users.delete(123);
+
+      expect(result).to.equal("fake_remove_result");
+      expect(deleteStub).to.have.been.calledWith({ _id: 123 });
+    });
   });
 });
