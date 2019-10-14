@@ -143,5 +143,9 @@ describe("users", () => {
     it("should save the user", () => {
       expect(saveStub).to.have.called;
     });
+
+    it("should call mailer with email and name of the user", () => {
+      expect(mailerStub).to.have.calledWith(sampleUser.email, sampleUser.name);
+    });
   });
 });
