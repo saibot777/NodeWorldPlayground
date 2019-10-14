@@ -26,6 +26,9 @@ describe("users", () => {
     };
 
     findStub = sandbox.stub(mongoose.Model, "findById").resolves(sampleUser);
+    deleteStub = sandbox
+      .stub(mongoose.Model, "remove")
+      .resolves("fake_remove_result");
   });
 
   afterEach(() => {
@@ -75,6 +78,20 @@ describe("users", () => {
 
         done();
       });
+    });
+  });
+
+  context("delete user", () => {
+    it("should check for an id using return", () => {
+      return users
+        .delete()
+        .then(result => {
+          throw new Error("unexpected success");
+        })
+        .catch(err => {
+          expect(err).to.be.instanceOf(Error);
+          expect(err.message).to.equal("Invalid id");
+        });
     });
   });
 });
