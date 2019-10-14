@@ -24,7 +24,8 @@ describe("users", () => {
     sampleUser = {
       id: 123,
       name: "TestName",
-      email: "test@email.com"
+      email: "test@email.com",
+      save: sandbox.stub().resolves()
     };
 
     findStub = sandbox.stub(mongoose.Model, "findById").resolves(sampleUser);
@@ -154,6 +155,14 @@ describe("users", () => {
       await expect(users.create(sampleUser)).to.eventually.be.rejectedWith(
         "fake"
       );
+    });
+  });
+
+  context("update user", () => {
+    it("should find user by id", async () => {
+      await users.update(123, { age: 35 });
+
+      expect(findStub).to.have.been.calledWith(123);
     });
   });
 });
