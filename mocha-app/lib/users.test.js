@@ -164,5 +164,11 @@ describe("users", () => {
 
       expect(findStub).to.have.been.calledWith(123);
     });
+
+    it("should call user.save", async () => {
+      await users.update(123, { age: 35 });
+
+      expect(sampleUser.save).to.have.been.calledOnce;
+    });
   });
 });
