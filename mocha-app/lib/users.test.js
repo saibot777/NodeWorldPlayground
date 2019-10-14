@@ -93,5 +93,9 @@ describe("users", () => {
           expect(err.message).to.equal("Invalid id");
         });
     });
+
+    it("should check for error using eventually", () => {
+      return expect(users.delete()).to.eventually.be.rejectedWith("Invalid id");
+    });
   });
 });
