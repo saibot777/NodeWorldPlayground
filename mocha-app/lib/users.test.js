@@ -8,7 +8,7 @@ const rewire = require("rewire");
 chai.use(chaiAsPromised);
 chai.use(sinonChai);
 
-const users = rewire("./users");
+var users = rewire("./users");
 const User = require("./models/user");
 const mailer = require("./mailer");
 
@@ -115,12 +115,12 @@ describe("users", () => {
   context("create user", () => {
     let fakeUserClass, saveStub, result;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       saveStub = sandbox.stub().resolves(sampleUser);
       fakeUserClass = sandbox.stub().returns({ save: saveStub });
 
       users.__set__("User", fakeUserClass);
-      result;
+      result = await users.create(sampleUser);
     });
 
     it("should reject invalid args", async () => {
@@ -135,6 +135,9 @@ describe("users", () => {
       ).to.eventually.be.rejectedWith("Invalid arguments");
     });
 
-    it("should", () => {});
+    it("should call user with the new", () => {
+      expect(fakeUserClass).to.be.calledWithNew;
+      expect(fakeUserClass).to.have.been.calledWith(sampleUser);
+    });
   });
 });
