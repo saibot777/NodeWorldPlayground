@@ -10,6 +10,7 @@ chai.use(sinonChai);
 
 const users = rewire("./users");
 const User = require("./models/user");
+const mailer = require("./mailer");
 
 const sandbox = sinon.createSandbox();
 
@@ -17,6 +18,7 @@ describe("users", () => {
   let findStub;
   let sampleArgs;
   let sampleUser;
+  let mailerStub;
 
   beforeEach(() => {
     sampleUser = {
@@ -29,10 +31,14 @@ describe("users", () => {
     deleteStub = sandbox
       .stub(mongoose.Model, "remove")
       .resolves("fake_remove_result");
+    mailerStub = sandbox
+      .stub(mailer, "sendWelcomeEmail")
+      .resolves("fake_email");
   });
 
   afterEach(() => {
     sandbox.restore();
+    users = rewire("./users");
   });
 
   context("get", () => {
@@ -107,6 +113,16 @@ describe("users", () => {
   });
 
   context("create user", () => {
+    let fakeUserClass, saveStub, result;
+
+    beforeEach(() => {
+      saveStub = sandbox.stub().resolves(sampleUser);
+      fakeUserClass = sandbox.stub().returns({ save: saveStub });
+
+      users.__set__("User", fakeUserClass);
+      result;
+    });
+
     it("should reject invalid args", async () => {
       await expect(users.create()).to.eventually.be.rejectedWith(
         "Invalid arguments"
@@ -118,5 +134,7 @@ describe("users", () => {
         users.create({ email: "test@email.com" })
       ).to.eventually.be.rejectedWith("Invalid arguments");
     });
+
+    it("should", () => {});
   });
 });
